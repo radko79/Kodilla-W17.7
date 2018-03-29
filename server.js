@@ -14,10 +14,11 @@ passport.deserializeUser( (obj, done) => {
 });
 
 passport.use(new GoogleStrategy ({
-	ClientID: config.GOOGLE_CLIENT_ID,
+	clientID: config.GOOGLE_CLIENT_ID,
 	clientSecret: config.GOOGLE_CLIENT_SECRET,
 	callbackURL: config.CALLBACK_URL
-}, function(accessToken, refreshToken, profile, cb) {
+}, 
+function(accessToken, refreshToken, profile, cb) {
 		googleProfile = {
 			id: profile.id,
 			displayName: profile.displayName
@@ -30,3 +31,29 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(passport.initialize());
 app.use(passport.session());
+
+//app routes
+app.get('/', function(req, res){
+    res.render('index', { user: req.user });
+});
+
+app.get('/logged', function(req, res){
+    res.render('logged', { user: googleProfile });
+});
+
+//Passport routes
+app.get('/auth/google',
+passport.authenticate('google', {
+	scope : ['profile', 'email']
+}));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        successRedirect : '/logged',
+        failureRedirect: '/'
+    }));
+
+app.listen(3000);
+app.use(function (req, res, next) {
+    res.status(404).send("Sorry, but we couldn't find what are you looking for")
+});
