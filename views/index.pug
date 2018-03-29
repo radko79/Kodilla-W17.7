@@ -6,11 +6,12 @@ html(lang='en')
 		h1 App with Google Authorization
 		#container.col
 			h2 Please enter login and password
-			form(action='https://localhost:3000/google/auth', method='GET')
+			form(action='https://localhost:3000/auth/google', method='GET')
 				p.login
 					| Enter login
 					input.text(type='text', name='login')
 				p.password
 					| Enter password
 					input.password(type='text', name='password')
-				input.button(type='submit', value='submit')
+				input.button(type='submit', value='Submit')
+

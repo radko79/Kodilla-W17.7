@@ -34,26 +34,26 @@ app.use(passport.session());
 
 //app routes
 app.get('/', function(req, res){
-    res.render('index', { user: req.user });
+	res.render('index', { user: req.user });
 });
 
 app.get('/logged', function(req, res){
-    res.render('logged', { user: googleProfile });
+	res.render('logged', { user: googleProfile });
 });
 
 //Passport routes
 app.get('/auth/google',
 passport.authenticate('google', {
-	scope : ['profile', 'email']
+	scope: ['profile', 'email']
 }));
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', {
-        successRedirect : '/logged',
-        failureRedirect: '/'
-    }));
+passport.authenticate('google', {
+	successRedirect : '/logged',
+	failureRedirect: '/'
+}));
 
 app.listen(3000);
 app.use(function (req, res, next) {
-    res.status(404).send("Sorry, but we couldn't find what are you looking for")
+	res.status(404).send("Sorry, but we couldn't find what are you looking for")
 });
